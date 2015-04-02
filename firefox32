@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo mv /opt/netscape/plugins/libflashplayer.so /opt/netscape/plugins/libflashplayer.so-moved
+
+firefox-bin -no-remote -P 32
+
+sleep 3
+
+sudo mv /opt/netscape/plugins/libflashplayer.so-moved /opt/netscape/plugins/libflashplayer.so

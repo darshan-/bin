@@ -1,0 +1,3 @@
+#!/bin/bash
+
+GOTOOLDIR="/home/darshan/software/go-tip/go/pkg/tool/linux_amd64" GOROOT="/home/darshan/software/go-tip/go" /home/darshan/software/go-tip/go/bin/go $*

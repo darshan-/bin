@@ -1,0 +1,3 @@
+#!/bin/bash
+
+chromium --disable-plugins --enable-udd-profiles --user-data-dir=/home/darshan/.config/chromium-hn

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#chromium --disable-plugins --enable-udd-profiles --user-data-dir=/home/darshan/.config/chromium-darshan.ishaya@gmail.com
+
+google-chrome --enable-udd-profiles --user-data-dir=/home/darshan/.config/chromium-darshan.ishaya@gmail.com

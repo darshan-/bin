@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#~/software/firefox/firefox -no-remote -P Facebook
+~/software/firefox/firefox -no-remote -ProfileManager

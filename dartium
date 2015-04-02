@@ -1,0 +1,3 @@
+#!/bin/bash
+
+DART_FLAGS='--enable_type_checks --enable_asserts' ~/software/dart/chromium/chrome --disable-plugins --enable-udd-profiles --user-data-dir=/home/darshan/.config/dartium-dev

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+s3cmd sync --dry-run --delete-removed Calibre\ Library/ s3://josiah.barber/Calibre\ Library/

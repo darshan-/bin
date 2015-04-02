@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ "$*" = "up" ]]; then
+    echo "Disabling IPv6"
+    ipv6 down
+    #sudo /etc/init.d/openvpn.pia-seattle start
+    sudo systemctl start openvpn@pia-seattle.service
+else
+    if [[ "$*" = "down" ]]; then
+        #sudo /etc/init.d/openvpn.pia-seattle stop
+        sudo systemctl stop openvpn@pia-seattle.service
+        echo "Enabling IPv6"
+        ipv6 up
+    else
+        echo "Incorrect usage..."
+    fi
+fi

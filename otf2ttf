@@ -1,0 +1,14 @@
+#!/usr/bin/fontforge
+
+# Quick and dirty hack: converts a font to truetype (.ttf)
+# Requires Fontforge. Run as "fontforge -script otf2ttf.sh FONTNAME.otf"
+
+Open($1)
+Generate($1:r + ".ttf")
+
+
+#print( $0 );
+#Open($1);
+#Print("Saving $1:r+".ttf");
+#Generate($1:r+".ttf");
+#quit(0);

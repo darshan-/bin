@@ -1,0 +1,6 @@
+#!/bin/bash
+
+killall kmix
+kmix 2>/dev/null
+
+dbus-send --dest=org.kde.kmix --print-reply /kmix/KMixWindow com.trolltech.Qt.QWidget.show >/dev/null

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+wine /home/darshan/.wine/drive_c/Program\ Files/Adobe/Adobe\ Digital\ Editions/digitaleditions.exe

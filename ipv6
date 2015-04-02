@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ "$*" = "up" ]]; then
+    sudo /home/darshan/bin/ipv6-up
+else
+    if [[ "$*" = "down" ]]; then
+        sudo /home/darshan/bin/ipv6-down
+    else
+        echo "Incorrect usage..."
+    fi
+fi

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# filename=andvidenc
+
+#USAGE:
+#  andvidenc low "input.video"
+#  andvidenc high "input.video"
+#
+#   --output: "input.video.mp4"
+#
+# Note 1: if input video is INTERLACED, add "kerndeint" to -vf,
+# i.e. ... -vf kerndeint,dsize....
+#
+# Note 2: if 2-pass encoding is not desired, comment out the FIRST mencoder line
+# from each case and remove "-passlogfile "$2.log"" and ":pass=2" from remaining
+# mencoder lines.
+#
+# Note 3: for testing purposes, I have verified that HTC dream is able to play high
+# bitrate files without trouble. Tested with bitrate up to 1024. Visual difference
+# between 512 and 1024 is minimal. Up to you to choose a bitrate that balances
+# quality with size.
+
+# yes, this script is really stupid and has a lot of room for enhancement. Feel free
+# to improve it.
+
+if [ $1 = "low" ]; then
+    mencoder "$2" -o "$2.tmp.mp4" -vf dsize=480:352:2,scale=-8:-8,harddup \
+-oac faac -faacopts mpeg=4:object=2:raw:br=128 -of lavf -lavfopts \
+format=mp4 -ovc x264 -passlogfile "$2.log" -x264encopts \
+nocabac:level_idc=30:bframes=0:bitrate=512:threads=auto:turbo=1:pass=1
+#    mencoder "$2" -o "$2.tmp.mp4" -vf dsize=480:352:2,scale=-8:-8,harddup \
+#-oac faac -faacopts mpeg=4:object=2:raw:br=128 -of lavf -lavfopts \
+#format=mp4 -ovc x264 -passlogfile "$2.log" -x264encopts \
+#nocabac:level_idc=30:bframes=0:bitrate=512:threads=auto:pass=2
+
+else
+    mencoder "$2" -o "$2.tmp.mp4" -vf dsize=480:352:2,scale=-8:-8,harddup \
+-oac faac -faacopts mpeg=4:object=2:raw:br=128 -of lavf -lavfopts \
+format=mp4 -ovc x264 -passlogfile "$2.log" -sws 9 -x264encopts \
+nocabac:level_idc=30:bframes=0:bitrate=512:threads=auto:turbo=1:pass=1:global_header:threads=auto:subq=5:frameref=6:partitions=all:trellis=1:chroma_me:me=umh
+    mencoder "$2" -o "$2.tmp.mp4" -vf dsize=480:352:2,scale=-8:-8,harddup \
+-oac faac -faacopts mpeg=4:object=2:raw:br=128 -of lavf -lavfopts \
+format=mp4 -ovc x264 -passlogfile "$2.log" -sws 9 -x264encopts \
+nocabac:level_idc=30:bframes=0:bitrate=512:threads=auto:pass=2:global_header:subq=5:frameref=6:partitions=all:trellis=1:chroma_me:me=umh
+fi
+
+#ffmpeg -i "$2.tmp.mp4" -vcodec copy -acodec copy "$2.mp4"
+#rm -f "$2.tmp.mp4" "$2.log"
