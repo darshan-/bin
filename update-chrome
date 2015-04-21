@@ -163,7 +163,6 @@ package() {
 
 Dir.mktmpdir() do |tmpdir|
   IO.write("#{tmpdir}/PKGBUILD", pkgbuild)
-  #IO.write("#{tmpdir}/google-chrome-#{channel}.install", install)
   IO.write("#{tmpdir}/install", install)
   `cd #{tmpdir}; makepkg -si --skipinteg`
 end
