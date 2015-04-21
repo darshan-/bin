@@ -40,11 +40,6 @@ url = "http://googlechromereleases.blogspot.com/search/label/#{channels[channel]
 doc = Nokogiri::HTML(open(url).read)
 
 doc.xpath('//a').each do |a|
-  #name = channel.capitalize
-  #if name == "Unstable"
-  #  name = "Dev"
-  #end
-
   if a.text == "#{channel.capitalize} Channel Update"
     a.parent.parent.parent.css('div.entry-content').each do |entry|
       entry.text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
