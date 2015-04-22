@@ -62,7 +62,11 @@ if (latest == current)
   exit
 end
 
-puts "Upgrading #{channel} channel to version #{latest}"
+if current == '0'
+  puts "Installing #{channel} channel at version #{latest}"
+else
+  puts "Upgrading #{channel} channel from version #{current} to version #{latest}"
+end
 
 install = %q[
 # Colored makepkg-like functions
