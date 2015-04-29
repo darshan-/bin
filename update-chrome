@@ -274,7 +274,7 @@ package() {
       `cd #{tmpdir}; makepkg -si --skipinteg`
     end
 
-    current = `google-chrome-#{@cmd_channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0]
+    current = find_current
 
     if (latest == current)
       puts "Upgraded #{@channel} channel to version #{latest}"
