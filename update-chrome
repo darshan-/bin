@@ -3,6 +3,7 @@
 
 # Leaves out Chrome's license file.
 
+require 'colorize'
 require 'nokogiri'
 require 'open-uri'
 require 'tmpdir'
@@ -52,11 +53,28 @@ def delegate(argv)
   end
 end
 
+# ASCII color codes and printf alignment don't work together
+def print_list_line (ch, cur, available)
+  puts pad(ch, 8, :left) + '  ' + pad(cur, 24, :right) + ' ' + pad(available, 24, :right)
+end
+
+# Pads potentially colorized s with spaces to width
+# Pads on left if side not given or is not :right
+# Does nothing if width is less than or equal to uncolorized length of s
+def pad(s, width, side = :left)
+  s_len = s.uncolorize.length
+  if s_len < width
+    if side == :right
+      s = s + ' ' * (width - s_len)
+    else
+      s = ' ' * (width - s_len) + s
+    end
+  end
+
+  s
+end
+
 def list
-  format = "%8s  %-16s %-16s\n"
-
-  printf(format, 'Channel', 'Current', 'Available')
-
   cur = {}
   latest = {}
   threads = []
@@ -66,17 +84,32 @@ def list
       u = Updater.new(c)
 
       cur[c] = u.find_current
-      cur[c] = 'none' if cur[c] == '0'
-
       latest[c] = u.find_latest
-      latest[c] = 'same' if latest[c] == cur[c]
+
+      if latest[c] == cur[c]
+        latest[c] = 'Current'.green.bold
+        cur[c] = cur[c].green.bold
+      else
+        latest[c] = latest[c].yellow.bold
+        cur[c] = cur[c].yellow.bold
+      end
+
+      if cur[c].uncolorize == '0'
+        cur[c] = 'None'.red.bold
+      end
     end
   end
 
   threads.map(&:join)
 
+  print_list_line('Channel'.bold, 'Current'.bold, 'Available'.bold)
+
+  ch_colors = {'stable' => :green,
+               'beta'   => :yellow,
+               'dev'    => :red}
+
   CHANNELS.keys.each do |c|
-    printf(format, c, cur[c], latest[c])
+    print_list_line(c.send(ch_colors[c]), cur[c], latest[c])
   end
 end
 
@@ -111,7 +144,7 @@ class Updater
       end
     end
 
-    versions.sort.last
+    versions.sort_by{|vs| vs.split('.').map(&:to_i)}.last
   end
 
   def find_current
