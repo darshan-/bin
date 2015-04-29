@@ -3,8 +3,6 @@
 
 # Leaves out Chrome's license file.
 
-# TODO: In list, check for versions in parallel
-
 require 'nokogiri'
 require 'open-uri'
 require 'tmpdir'
@@ -59,17 +57,26 @@ def list
 
   printf(format, 'Channel', 'Current', 'Available')
 
+  cur = {}
+  latest = {}
+  threads = []
+
   CHANNELS.keys.each do |c|
-    u = Updater.new(c)
+    threads << Thread.new do
+      u = Updater.new(c)
 
-    cur = u.find_current
-    cur = 'none' if cur == '0'
+      cur[c] = u.find_current
+      cur[c] = 'none' if cur[c] == '0'
 
-    latest = u.find_latest
-    latest = 'same' if latest == cur
+      latest[c] = u.find_latest
+      latest[c] = 'same' if latest[c] == cur[c]
+    end
+  end
 
-    #puts "#{c} #{cur} #{latest}"
-    printf(format, c, cur, latest)
+  threads.map(&:join)
+
+  CHANNELS.keys.each do |c|
+    printf(format, c, cur[c], latest[c])
   end
 end
 
