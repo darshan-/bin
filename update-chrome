@@ -3,72 +3,135 @@
 
 # Leaves out Chrome's license file.
 
+# TODO: In list, check for versions in parallel
+
 require 'nokogiri'
 require 'open-uri'
 require 'tmpdir'
 
-channels = {'stable' => 'Stable%20updates',
+################################################
+# User configuration
+
+# Which channel to update when none given on command line
+# Set to one of 'stable', 'beta', or 'dev'
+DEFAULT = 'stable'
+
+# Which channels to update when 'all' given on command line
+# Set to any combination of 'stable', 'beta', and 'dev'
+ALL = ['stable', 'beta', 'dev']
+
+################################################
+
+
+CHANNELS = {'stable' => 'Stable%20updates',
             'beta' => 'Beta%20updates',
             'dev' => 'Dev%20updates'}
 
-usage = "Usage: #{$0} [#{channels.keys.join('|')}]"
-channel = ''
 
-if ARGV.length > 1
-  abort usage
-end
+USAGE = "Usage: #{$0.split('/').last} [#{(CHANNELS.keys + ['all', 'list']).join('|')}]"
 
-if ARGV.length == 1
-  if channels.keys.member? ARGV.first
-    channel = ARGV.first
-  else
-    abort usage
+def delegate(argv)
+  if argv.length > 1
+    abort USAGE
   end
-else
-  channel = 'stable'
+
+  if argv.length == 1
+    cmd = argv.first
+
+    if CHANNELS.keys.member? cmd
+      Updater.new(cmd).update
+    elsif cmd == 'all'
+      CHANNELS.keys.each do |c|
+        Updater.new(c).update
+      end
+    elsif cmd == 'list'
+      list
+    else
+      abort USAGE
+    end
+  else
+    Updater.new('stable').update
+  end
 end
 
-cmd_channel = channel == 'dev' ? 'unstable' : channel
+def list
+  format = "%8s  %-16s %-16s\n"
 
-# PKGBUILD sometimes wants channel and sometimes doesn't
-install_channel = channel == 'stable' ? '' : "-#{cmd_channel}"
+  printf(format, 'Channel', 'Current', 'Available')
 
-versions = []
+  CHANNELS.keys.each do |c|
+    u = Updater.new(c)
 
-url = "http://googlechromereleases.blogspot.com/search/label/#{channels[channel]}"
+    cur = u.find_current
+    cur = 'none' if cur == '0'
 
-doc = Nokogiri::HTML(open(url).read)
+    latest = u.find_latest
+    latest = 'same' if latest == cur
 
-doc.xpath('//a').each do |a|
-  if a.text == "#{channel.capitalize} Channel Update"
-    a.parent.parent.parent.css('div.entry-content').each do |entry|
-      entry.text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
-        versions << version
-      end
+    #puts "#{c} #{cur} #{latest}"
+    printf(format, c, cur, latest)
+  end
+end
+
+class Updater
+  def initialize(channel = nil)
+    if !channel.nil?
+      set_channels(channel)
     end
   end
-end
 
-latest = versions.sort.last
+  private def set_channels(channel)
+    @channel = channel
+    @cmd_channel = channel == 'dev' ? 'unstable' : channel
+    # PKGBUILD sometimes wants channel and sometimes doesn't
+    @install_channel = channel == 'stable' ? '' : "-#{@cmd_channel}"
+  end
 
-if latest == nil
-  abort "Could not determine latest version"
-end
+  def find_latest
+    versions = []
 
-current = `google-chrome-#{cmd_channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0] rescue current = '0'
+    url = "http://googlechromereleases.blogspot.com/search/label/#{CHANNELS[@channel]}"
 
-if (latest == current)
-  puts "#{channel.capitalize} channel is already up to date at version #{latest}"
-  exit
-end
+    doc = Nokogiri::HTML(open(url).read)
 
-if current == '0'
-  puts "Installing #{channel} channel at version #{latest}"
-else
-  puts "Upgrading #{channel} channel from version #{current} to version #{latest}"
-end
+    doc.xpath('//a').each do |a|
+      if a.text == "#{@channel.capitalize} Channel Update"
+        a.parent.parent.parent.css('div.entry-content').each do |entry|
+          entry.text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
+            versions << version
+          end
+        end
+      end
+    end
 
-install = %q[
+    versions.sort.last
+  end
+
+  def find_current
+    `google-chrome-#{@cmd_channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0] rescue current = '0'
+  end
+
+  def update
+    latest = find_latest
+
+    if latest == nil
+      abort "Could not determine latest version for channel #{channel}"
+    end
+
+    current = find_current
+
+    if (latest == current)
+      puts "#{@channel.capitalize} channel is already up to date at version #{latest}"
+      return
+    end
+
+    if current == '0'
+      puts "Installing #{@channel} channel at version #{latest}"
+    else
+      puts "Upgrading #{@channel} channel from version #{current} to version #{latest}"
+    end
+
+    install = %q[
 # Colored makepkg-like functions
 msg_blue() {
     printf "${blue}==>${bold} $1${all_off}\n"
@@ -106,17 +169,17 @@ post_remove() {
 }
 ]
 
-pkgbuild = %Q[
+    pkgbuild = %Q[
 # Maintainer: Det <nimetonmaili g-mail>
 # Contributors: t3ddy, Lex Rivera aka x-demon, ruario
 
 # Check for new Linux releases in: http://googlechromereleases.blogspot.com/search/label/Beta%20updates
 # or use: $ curl -s https://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz | gzip -df | awk -F\" '/pkgid/{ sub(".*-","",$4); print $4": "$10 }'
 
-pkgname=google-chrome#{install_channel}
+pkgname=google-chrome#{@install_channel}
 pkgver=#{latest}
 pkgrel=1
-pkgdesc="An attempt at creating a safer, faster, and more stable browser (#{channel.capitalize} Channel)"
+pkgdesc="An attempt at creating a safer, faster, and more stable browser (#{@channel.capitalize} Channel)"
 arch=('x86_64')
 url="https://www.google.com/chrome/index.html"
 license=('custom:chrome')
@@ -129,7 +192,7 @@ provides=('google-chrome' 'pepper-flash')
 options=('!emptydirs' '!strip')
 #install=$pkgname.install
 install=install
-_channel=#{cmd_channel}
+_channel=#{@cmd_channel}
 #source=('eula_text.html')
 source_x86_64=("google-chrome-${_channel}_${pkgver}_amd64.deb::https://dl.google.com/linux/direct/google-chrome-${_channel}_current_amd64.deb")
 md5sums=('b7e752f549b215ac77f284b6486794b6')
@@ -143,38 +206,42 @@ package() {
   msg2 "Moving stuff in place..."
   # Icons
   for i in 16x16 22x22 24x24 32x32 48x48 64x64 128x128 256x256; do
-    install -Dm644 "$pkgdir"/opt/google/chrome#{install_channel}/product_logo_${i/x*}.png \
+    install -Dm644 "$pkgdir"/opt/google/chrome#{@install_channel}/product_logo_${i/x*}.png \
                    "$pkgdir"/usr/share/icons/hicolor/$i/apps/google-chrome-$_channel.png
   done
 
   # Man page
-  gzip "$pkgdir"/usr/share/man/man1/google-chrome#{install_channel}.1
+  gzip "$pkgdir"/usr/share/man/man1/google-chrome#{@install_channel}.1
 
   # License
   #install -Dm644 eula_text.html "$pkgdir"/usr/share/licenses/google-chrome-$_channel/eula_text.html
 
   msg2 "Fixing Chrome icon resolution..."
-  sed -i "/Exec=/i\StartupWMClass=Google-chrome-$_channel" "$pkgdir"/usr/share/applications/google-chrome#{install_channel}.desktop
+  sed -i "/Exec=/i\StartupWMClass=Google-chrome-$_channel" "$pkgdir"/usr/share/applications/google-chrome#{@install_channel}.desktop
 
   msg2 "Adding support for CHROMIUM_USER_FLAGS..."
-  sed -i 's/ "$@"/ $CHROMIUM_USER_FLAGS "$@"/' "$pkgdir"/opt/google/chrome#{install_channel}/google-chrome#{install_channel}
+  sed -i 's/ "$@"/ $CHROMIUM_USER_FLAGS "$@"/' "$pkgdir"/opt/google/chrome#{@install_channel}/google-chrome#{@install_channel}
 
   msg2 "Removing unnecessities (e.g. Debian Cron job)..."
-  rm -r "$pkgdir"/etc/cron.daily/ "$pkgdir"/opt/google/chrome#{install_channel}/cron/
-  rm "$pkgdir"/opt/google/chrome#{install_channel}/product_logo_*.png
+  rm -r "$pkgdir"/etc/cron.daily/ "$pkgdir"/opt/google/chrome#{@install_channel}/cron/
+  rm "$pkgdir"/opt/google/chrome#{@install_channel}/product_logo_*.png
 }
 ]
 
-Dir.mktmpdir() do |tmpdir|
-  IO.write("#{tmpdir}/PKGBUILD", pkgbuild)
-  IO.write("#{tmpdir}/install", install)
-  `cd #{tmpdir}; makepkg -si --skipinteg`
+    Dir.mktmpdir() do |tmpdir|
+      IO.write("#{tmpdir}/PKGBUILD", pkgbuild)
+      IO.write("#{tmpdir}/install", install)
+      `cd #{tmpdir}; makepkg -si --skipinteg`
+    end
+
+    current = `google-chrome-#{@cmd_channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0]
+
+    if (latest == current)
+      puts "Upgraded #{@channel} channel to version #{latest}"
+    else
+      puts "Upgrade failed!"
+    end
+  end
 end
 
-current = `google-chrome-#{cmd_channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0]
-
-if (latest == current)
-  puts "Upgraded #{channel} channel to version #{latest}"
-else
-  puts "Upgrade failed!"
-end
+delegate(ARGV)
