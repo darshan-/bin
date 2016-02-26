@@ -135,9 +135,11 @@ class Updater
     doc = Nokogiri::HTML(open(url).read)
 
     doc.xpath('//a').each do |a|
-      if a.text == "#{@channel.capitalize} Channel Update"
-        a.parent.parent.parent.css('div.entry-content').each do |entry|
-          entry.text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
+      if a.text.strip == "#{@channel.capitalize} Channel Update"
+        a.parent.parent.css('div.post-body').each do |entry|
+          entry.css('span').text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
+        #a.parent.parent.parent.css('div.entry-content').each do |entry|
+            #entry.text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
             versions << version
           end
         end
