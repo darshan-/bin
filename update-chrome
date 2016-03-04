@@ -5,7 +5,7 @@
 
 require 'colorize'
 require 'nokogiri'
-require 'open-uri'
+require 'curb'
 require 'tmpdir'
 
 ################################################
@@ -132,7 +132,7 @@ class Updater
 
     url = "http://googlechromereleases.blogspot.com/search/label/#{CHANNELS[@channel]}"
 
-    doc = Nokogiri::HTML(open(url).read)
+    doc = Nokogiri::HTML(Curl.get(url).body_str)
 
     doc.xpath('//a').each do |a|
       if a.text.strip == "#{@channel.capitalize} Channel Update"
