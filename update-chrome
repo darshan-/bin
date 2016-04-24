@@ -6,41 +6,45 @@
 require 'colorize'
 require 'nokogiri'
 require 'curb'
+require 'zlib'
 require 'tmpdir'
 
 ################################################
 # User configuration
 
 # Which channel to update when none given on command line
-# Set to one of 'stable', 'beta', or 'dev'
+# Set to one of 'stable', 'beta', or 'unstable'
 DEFAULT = 'stable'
 
 # Which channels to update when 'all' given on command line
-# Set to any combination of 'stable', 'beta', and 'dev'
-ALL = ['stable', 'beta', 'dev']
+# Set to any combination of 'stable', 'beta', and 'unstable'
+ALL = ['stable', 'beta', 'unstable']
 
 ################################################
 
 
-CHANNELS = {'stable' => 'Stable%20updates',
-            'beta' => 'Beta%20updates',
-            'dev' => 'Dev%20updates'}
+CHANNELS = ['stable',
+            'beta',
+            'unstable']
 
+VERSIONS = {}
 
-USAGE = "Usage: #{$0.split('/').last} [#{(CHANNELS.keys + ['all', 'list']).join('|')}]"
+USAGE = "Usage: #{$0.split('/').last} [#{(CHANNELS + ['all', 'list']).join('|')}]"
 
 def delegate(argv)
   if argv.length > 1
     abort USAGE
   end
 
+  update_versions
+
   if argv.length == 1
     cmd = argv.first
 
-    if CHANNELS.keys.member? cmd
+    if CHANNELS.member? cmd
       Updater.new(cmd).update
     elsif cmd == 'all'
-      CHANNELS.keys.each do |c|
+      CHANNELS.each do |c|
         Updater.new(c).update
       end
     elsif cmd == 'list'
@@ -50,6 +54,16 @@ def delegate(argv)
     end
   else
     Updater.new('stable').update
+  end
+end
+
+def update_versions
+  url = 'https://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz'
+  ns = 'http://linux.duke.edu/metadata/other'
+  doc = Nokogiri::XML(Zlib::GzipReader.new(StringIO.new(Curl.get(url).body_str)).read)
+
+  doc.xpath('//ns:package', 'ns' => ns).each do |package|
+    VERSIONS[package['name'].split('-').last] = package.xpath('ns:version', 'ns' => ns).first['ver']
   end
 end
 
@@ -77,38 +91,33 @@ end
 def list
   cur = {}
   latest = {}
-  threads = []
 
-  CHANNELS.keys.each do |c|
-    threads << Thread.new do
-      u = Updater.new(c)
+  CHANNELS.each do |c|
+    u = Updater.new(c)
 
-      cur[c] = u.find_current
-      latest[c] = u.find_latest
+    cur[c] = u.find_current
+    latest[c] = u.find_latest
 
-      if latest[c] == cur[c]
-        latest[c] = 'Current'.green.bold
-        cur[c] = cur[c].green.bold
-      else
-        latest[c] = latest[c].yellow.bold
-        cur[c] = cur[c].yellow.bold
-      end
+    if latest[c] == cur[c]
+      latest[c] = 'Current'.green.bold
+      cur[c] = cur[c].green.bold
+    else
+      latest[c] = latest[c].yellow.bold
+      cur[c] = cur[c].yellow.bold
+    end
 
-      if cur[c].uncolorize == '0'
-        cur[c] = 'None'.red.bold
-      end
+    if cur[c].uncolorize == '0'
+      cur[c] = 'None'.red.bold
     end
   end
 
-  threads.map(&:join)
-
   print_list_line('Channel'.bold, 'Current'.bold, 'Available'.bold)
 
-  ch_colors = {'stable' => :green,
-               'beta'   => :yellow,
-               'dev'    => :red}
+  ch_colors = {'stable'   => :green,
+               'beta'     => :yellow,
+               'unstable' => :red}
 
-  CHANNELS.keys.each do |c|
+  CHANNELS.each do |c|
     print_list_line(c.send(ch_colors[c]), cur[c], latest[c])
   end
 end
@@ -122,42 +131,24 @@ class Updater
 
   private def set_channels(channel)
     @channel = channel
-    @cmd_channel = channel == 'dev' ? 'unstable' : channel
+
     # PKGBUILD sometimes wants channel and sometimes doesn't
-    @install_channel = channel == 'stable' ? '' : "-#{@cmd_channel}"
+    @install_channel = channel == 'stable' ? '' : "-#{@channel}"
   end
 
   def find_latest
-    versions = []
-
-    url = "http://googlechromereleases.blogspot.com/search/label/#{CHANNELS[@channel]}"
-
-    doc = Nokogiri::HTML(Curl.get(url).body_str)
-
-    doc.xpath('//a').each do |a|
-      if a.text.strip == "#{@channel.capitalize} Channel Update"
-        a.parent.parent.css('div.post-body').each do |entry|
-          entry.css('span').text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
-        #a.parent.parent.parent.css('div.entry-content').each do |entry|
-            #entry.text.scan(/\d+\.\d+\.\d+\.\d+/).each do |version|
-            versions << version
-          end
-        end
-      end
-    end
-
-    versions.sort_by{|vs| vs.split('.').map(&:to_i)}.last
+    VERSIONS[@channel]
   end
 
   def find_current
-    `google-chrome-#{@cmd_channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0] rescue current = '0'
+    `google-chrome-#{@channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0] rescue current = '0'
   end
 
   def update
     latest = find_latest
 
     if latest == nil
-      abort "Could not determine latest version for channel #{channel}"
+      abort "Could not determine latest version for channel #{@channel}"
     end
 
     current = find_current
@@ -234,7 +225,7 @@ provides=('google-chrome' 'pepper-flash')
 options=('!emptydirs' '!strip')
 #install=$pkgname.install
 install=install
-_channel=#{@cmd_channel}
+_channel=#{@channel}
 #source=('eula_text.html')
 source_x86_64=("google-chrome-${_channel}_${pkgver}_amd64.deb::https://dl.google.com/linux/direct/google-chrome-${_channel}_current_amd64.deb")
 md5sums=('b7e752f549b215ac77f284b6486794b6')
