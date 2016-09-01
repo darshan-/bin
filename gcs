@@ -1,3 +1,5 @@
 #!/bin/bash
 
 google-chrome-stable
+
+#google-chrome-stable --enable-udd-profiles --user-data-dir=/home/darshan/.config/google-chrome
