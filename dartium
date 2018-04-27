@@ -2,4 +2,6 @@
 
 #DART_FLAGS='--enable_type_checks --enable_asserts' ~/software/dart/chromium/chrome --disable-plugins --enable-udd-profiles --user-data-dir=/home/darshan/.config/dartium-dev
 
-DART_FLAGS='--enable_type_checks --enable_asserts' ~/software/dartium*full*/chrome --disable-plugins --enable-udd-profiles --user-data-dir=/home/darshan/.config/dartium-dev --disable-web-security
+#DART_FLAGS='--enable_type_checks --enable_asserts' ~/software/dartium*full*/chrome --disable-plugins --enable-udd-profiles --user-data-dir=/home/darshan/.config/dartium-dev --disable-web-security
+
+DART_FLAGS='--enable_type_checks --enable_asserts' ~/software/dartium*stable*/chrome --disable-plugins --enable-udd-profiles --user-data-dir=/home/darshan/.config/dartium-dev --disable-web-security

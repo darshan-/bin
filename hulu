@@ -1,3 +1,7 @@
 #!/bin/bash
 
-env WINEPREFIX="/home/darshan/.wine" wine C:\\windows\\command\\start.exe /Unix /home/darshan/.wine/dosdevices/c:/users/Public/Start\ Menu/Programs/Mozilla\ Firefox.lnk
+#env WINEPREFIX="/home/darshan/.wine" wine C:\\windows\\command\\start.exe /Unix /home/darshan/.wine/dosdevices/c:/users/Public/Start\ Menu/Programs/Mozilla\ Firefox.lnk
+
+#google-chrome-stable --enable-udd-profiles --user-data-dir=/home/darshan/.config/google-chrome-stable-hulu
+
+firefox -P Hulu

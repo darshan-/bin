@@ -1,5 +1,5 @@
 #!/bin/bash
 
-google-chrome-stable
+NO_CHROME_KDE_FILE_DIALOG=1 google-chrome-stable
 
 #google-chrome-stable --enable-udd-profiles --user-data-dir=/home/darshan/.config/google-chrome

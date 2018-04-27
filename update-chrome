@@ -24,16 +24,26 @@ ALL = ['stable', 'beta', 'unstable']
 
 
 CHANNELS = ['stable',
-            'beta',
-            'unstable']
+            'beta']#,
+            #'unstable'] # 20180207 2:30AM, other.xml.gz missing entry for unstable
 
 VERSIONS = {}
 
 USAGE = "Usage: #{$0.split('/').last} [#{(CHANNELS + ['all', 'list']).join('|')}]"
 
 def delegate(argv)
-  if argv.length > 1
+  if argv.length > 2
     abort USAGE
+  end
+
+  if argv.length == 2
+    cmd = argv.first
+    if CHANNELS.member? cmd
+      Updater.new(cmd).update(argv.last)
+    elsif
+      puts "${cmd} is not a channel"
+      abort USAGE
+    end
   end
 
   update_versions
@@ -144,24 +154,28 @@ class Updater
     `google-chrome-#{@channel} --version`.match(/\d+\.\d+\.\d+\.\d+/)[0] rescue current = '0'
   end
 
-  def update
-    latest = find_latest
-
+  def update(latest = nil)
     if latest == nil
-      abort "Could not determine latest version for channel #{@channel}"
-    end
+      latest = find_latest
 
-    current = find_current
+      if latest == nil
+        abort "Could not determine latest version for channel #{@channel}"
+      end
 
-    if (latest == current)
-      puts "#{@channel.capitalize} channel is already up to date at version #{latest}"
-      return
-    end
+      current = find_current
 
-    if current == '0'
-      puts "Installing #{@channel} channel at version #{latest}"
+      if (latest == current)
+        puts "#{@channel.capitalize} channel is already up to date at version #{latest}"
+        return
+      end
+
+      if current == '0'
+        puts "Installing #{@channel} channel at version #{latest}"
+      else
+        puts "Upgrading #{@channel} channel from version #{current} to version #{latest}"
+      end
     else
-      puts "Upgrading #{@channel} channel from version #{current} to version #{latest}"
+      puts "Force installing current #{@channel} package as version #{latest}"
     end
 
     install = %q[
@@ -244,7 +258,9 @@ package() {
   done
 
   # Man page
-  gzip "$pkgdir"/usr/share/man/man1/google-chrome#{@install_channel}.1
+  # Darshan - 20171208 4:00:52 AM PST - This doesn't exist, so commenting out for now
+  #  I don't ever do `man google-chrome-stable` anyway.
+  #gzip "$pkgdir"/usr/share/man/man1/google-chrome#{@install_channel}.1
 
   # License
   #install -Dm644 eula_text.html "$pkgdir"/usr/share/licenses/google-chrome-$_channel/eula_text.html

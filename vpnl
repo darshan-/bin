@@ -4,11 +4,13 @@ if [[ "$*" = "up" ]]; then
     echo "Disabling IPv6"
     ipv6 down
     #sudo /etc/init.d/openvpn.pia-london start
-    sudo systemctl start openvpn@pia-london.service
+    #sudo systemctl start openvpn@pia-london.service
+    sudo systemctl start openvpn-client@pia-london.service
 else
     if [[ "$*" = "down" ]]; then
         #sudo /etc/init.d/openvpn.pia-london stop
-        sudo systemctl stop openvpn@pia-london.service
+        #sudo systemctl stop openvpn@pia-london.service
+        sudo systemctl stop openvpn-client@pia-london.service
         echo "Enabling IPv6"
         ipv6 up
     else
