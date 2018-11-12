@@ -3,4 +3,6 @@
 #echo "0">/proc/sys/net/ipv6/conf/enp0s25/disable_ipv6
 #echo "0">/proc/sys/net/ipv6/conf/wlp2s0/disable_ipv6
 #echo "0">/proc/sys/net/ipv6/conf/wlp3s0/disable_ipv6
-echo "0">/proc/sys/net/ipv6/conf/wlp4s0/disable_ipv6
+#echo "0">/proc/sys/net/ipv6/conf/wlp4s0/disable_ipv6
+
+echo "0">/proc/sys/net/ipv6/conf/enp0s31f6/disable_ipv6

@@ -252,10 +252,11 @@ package() {
 
   msg2 "Moving stuff in place..."
   # Icons
-  for i in 16x16 22x22 24x24 32x32 48x48 64x64 128x128 256x256; do
-    install -Dm644 "$pkgdir"/opt/google/chrome#{@install_channel}/product_logo_${i/x*}.png \
-                   "$pkgdir"/usr/share/icons/hicolor/$i/apps/google-chrome-$_channel.png
-  done
+  #for i in 16x16 22x22 24x24 32x32 48x48 64x64 128x128 256x256; do
+  #for i in 64x64 128x128 256x256; do
+  #  install -Dm644 "$pkgdir"/opt/google/chrome#{@install_channel}/product_logo_${i/x*}.png \
+  #                 "$pkgdir"/usr/share/icons/hicolor/$i/apps/google-chrome-$_channel.png
+  #done
 
   # Man page
   # Darshan - 20171208 4:00:52 AM PST - This doesn't exist, so commenting out for now
