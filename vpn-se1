@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ "$*" = "up" ]]; then
+    sudo wg-quick up mullvad-se1
+else
+    if [[ "$*" = "down" ]]; then
+        sudo wg-quick down mullvad-se1
+    else
+        echo "Incorrect usage..."
+    fi
+fi

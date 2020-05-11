@@ -1,0 +1,42 @@
+#!/bin/bash
+
+tok=`cat /home/darshan/bin/lifx-token`
+
+case "$1" in
+    night)
+        curl -X PUT -H "Content-Type: application/json" "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d '{"color": "kelvin:2500 brightness:0.35", "power": "on"}'
+        ;;
+    on)
+        curl -X PUT "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d "power=on"
+        ;;
+    off)
+        curl -X PUT "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d "power=off"
+        ;;
+    day)
+        curl -X PUT -H "Content-Type: application/json" "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d '{"color": "kelvin:3500 brightness:1", "power": "on"}'
+        ;;
+    brighter)
+        echo brighter would be nice # get, add 10%, up to max 100%?
+        ;;
+    b)
+        # TODO: Check for $2 presence
+        curl -X PUT -H "Content-Type: application/json" "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d "{\"brightness\": $2, \"power\": \"on\"}"
+         ;;
+    k)
+        # TODO: Check for $2 presence
+        curl -X PUT -H "Content-Type: application/json" "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d "{\"color\": \"kelvin:$2\", \"power\": \"on\"}"
+         ;;
+    get)
+        curl "https://api.lifx.com/v1/lights/all" -H "Authorization: Bearer $tok"
+        ;;
+    *)
+        echo unknown command
+        ;;
+esac
+
+# TODO: Do in Go, have better flag handling (combining k and b, for example, or smart enough for
+#    lifx 4700
+#    lifx 0.7
+#    lifx 4700 0.7
+#    lifx 0.7 4700
+#  and so forth.

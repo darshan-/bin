@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -z "$*" ] # Empty / no files listed on command line
+then
+   echo "Usage: `basename $0` [files]"
+   exit 1
+fi
+
+tmpfile=$(mktemp -p .)
+trap "rm -f $tmpfile" 0 2 3 15
+
+for f in $*
+do
+    echo "file '$f'" >>"$tmpfile"
+done
+
+ffmpeg -f concat -safe 0 -i "$tmpfile" -c copy `date +%Y%m%d%H%M%S`.mp4

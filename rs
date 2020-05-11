@@ -4,8 +4,14 @@ case "$1" in
     30)
         redshift -P -O 3000 -b 0.6:0.6
         ;;
+    31)
+        redshift -P -O 3100 -b 0.7:0.7
+        ;;
     32)
         redshift -P -O 3200 -b 0.7:0.7
+        ;;
+    32fb)
+        redshift -P -O 3200 -b 1.0:1.0
         ;;
     35)
         redshift -P -O 3500 -b 0.8:0.8
