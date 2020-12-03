@@ -13,6 +13,9 @@ case "$1" in
         curl -X PUT "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d "power=off"
         ;;
     day)
+        curl -X PUT -H "Content-Type: application/json" "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d '{"color": "kelvin:5200 brightness:1", "power": "on"}'
+        ;;
+    chill)
         curl -X PUT -H "Content-Type: application/json" "https://api.lifx.com/v1/lights/all/state" -H "Authorization: Bearer $tok" -d '{"color": "kelvin:3500 brightness:1", "power": "on"}'
         ;;
     brighter)

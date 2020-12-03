@@ -31,6 +31,12 @@ case "$1" in
     62)
         redshift -P -O 6200 -b 1.0:1.0
         ;;
+    70)
+        redshift -P -O 7000 -b 1.0:1.0
+        ;;
+    day)
+        redshift -P -O 6200 -b 1.0:1.0
+        ;;
     *)
         echo unknown value
         ;;

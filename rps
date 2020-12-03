@@ -1,4 +1,5 @@
 #!/bin/bash
 
-killall plasmashell
-nohup plasmashell &
+killall -9 plasmashell
+#nohup plasmashell &
+kstart5 plasmashell
