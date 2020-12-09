@@ -1,31 +1,32 @@
 #!/bin/bash
 
-RETRIES=8
+int_handler()
+{
+    echo "Interrupted."
+    kill $PPID
+    exit 1
+}
+trap 'int_handler' INT
+
+
+RETRIES=16
 
 if [ $# -ne 1 ]; then
     echo "Usage: `basename $0` <url-or-id>"
     exit 1
 fi
 
-# n=$RETRIES
-# until youtube-dl $1; do
-#     echo "n = $n"
-#     if [ "$n" -eq 0 ]; then
-#         echo "Still failed after $RETRIES retries; quitting"
-#         break
-#     fi
-
-#     let "n-=1"
-# done
-
 n=0
 success=false
 while [ "$n" -lt "$RETRIES" ]; do
     let "n+=1"
 
-    echo "Try #$n"
+    #echo -e "\e[36m→ ↪→ Try #$n\e[0m"
+    #echo -e "\e[36m↪ Try #$n\e[0m"
+    #
+    echo -e "\e[36m──────────────────────────── Try #$n ────────────────────────────\e[0m"
 
-    youtube-dl $1
+    youtube-dl -- $1
     if [ "$?" -eq 0 ]; then
         success=true
         break
@@ -33,5 +34,12 @@ while [ "$n" -lt "$RETRIES" ]; do
 done
 
 if [ "$success" = false ]; then
-    echo "Still failed after $RETRIES retries; quitting"
+    echo -e "\e[91m✘ Still failed after $RETRIES retries; quitting ✘\e[0m"
+else
+    retries="retries"
+    if [ "$n" -eq 1 ]; then
+        retries="retry"
+    fi
+
+    echo -e "\e[92m✔ Success!  ($n $retries).\e[0m"
 fi
