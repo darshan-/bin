@@ -1,15 +1,27 @@
 #!/bin/bash
 
+start=`date +%s%N`
+
+set_tdiff()
+{
+    local end=`date +%s%N`
+    local msdiff=$(( (end - start) / 1000000 ))
+    local secs=$(( msdiff / 1000 ))
+    local mils=$(( msdiff % 1000 ))
+    tdiff="$secs.$mils"
+}
+
 int_handler()
 {
-    echo "Interrupted."
+    set_tdiff
+
+    echo -e "\e[93m▶ Interrupted after $tdiff seconds ◀\e[0m"
     kill $PPID
     exit 1
 }
 trap 'int_handler' INT
 
-
-RETRIES=16
+TRIES=16
 
 if [ $# -ne 1 ]; then
     echo "Usage: `basename $0` <url-or-id>"
@@ -18,12 +30,9 @@ fi
 
 n=0
 success=false
-while [ "$n" -lt "$RETRIES" ]; do
+while [ "$n" -lt "$TRIES" ]; do
     let "n+=1"
 
-    #echo -e "\e[36m→ ↪→ Try #$n\e[0m"
-    #echo -e "\e[36m↪ Try #$n\e[0m"
-    #
     echo -e "\e[36m──────────────────────────── Try #$n ────────────────────────────\e[0m"
 
     youtube-dl -- $1
@@ -33,13 +42,15 @@ while [ "$n" -lt "$RETRIES" ]; do
     fi
 done
 
+set_tdiff
+
 if [ "$success" = false ]; then
-    echo -e "\e[91m✘ Still failed after $RETRIES retries; quitting ✘\e[0m"
+    echo -e "\e[91m✘ Still failed after $TRIES tries in $tdiff seconds; quitting ✘\e[0m"
 else
-    retries="retries"
+    tries="tries"
     if [ "$n" -eq 1 ]; then
-        retries="retry"
+        tries="try"
     fi
 
-    echo -e "\e[92m✔ Success!  ($n $retries).\e[0m"
+    echo -e "\e[92m✔ Success!  (Took $n $tries in $tdiff seconds).\e[0m"
 fi
