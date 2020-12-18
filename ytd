@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Hmm, in case of failure after $TRIES tries, rather than exit out, I
+#   think I like the idea of a prompt.  Have failure line, then prompt:
+#     re-run script? [Y/n]:
+#  So I can just hit enter and it can re-run itself (fork ytd?)
+# I still think a limit to how many unattended retries is prudent.
+# But making it easy to retry for the same URL would be great.
+# Might even lower RETRIES to 8 in that case?
+
+
 start=`date +%s%N`
 
 set_tdiff()
@@ -7,8 +16,14 @@ set_tdiff()
     local end=`date +%s%N`
     local msdiff=$(( (end - start) / 1000000 ))
     local secs=$(( msdiff / 1000 ))
-    local mils=$(( msdiff % 1000 ))
-    tdiff="$secs.$mils"
+    local mils=`printf "%03d" $(( msdiff % 1000 ))`
+    local mins=""
+    if  [ "$secs" -ge 60 ]; then
+        mins=$(( secs / 60 ))
+        secs=$(( secs % 60 ))
+        mins="$mins minutes, "
+    fi
+    tdiff="$mins$secs.$mils seconds"
 }
 
 int_handler()
@@ -52,5 +67,5 @@ else
         tries="try"
     fi
 
-    echo -e "\e[92m✔ Success!  (Took $n $tries in $tdiff seconds).\e[0m"
+    echo -e "\e[92m✔ Success!  (Took $n $tries in $tdiff).\e[0m"
 fi
