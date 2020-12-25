@@ -15,22 +15,30 @@ set_tdiff()
 {
     local end=`date +%s%N`
     local msdiff=$(( (end - start) / 1000000 ))
-    local secs=$(( msdiff / 1000 ))
-    local mils=`printf "%03d" $(( msdiff % 1000 ))`
+
     local mins=""
+    local subsecs=""
+
+    local secs=$(( msdiff / 1000 ))
+    local mils=$(( msdiff % 1000 ))
+
     if  [ "$secs" -ge 60 ]; then
         mins=$(( secs / 60 ))
         secs=$(( secs % 60 ))
+        subsecs=$(( mils / 100)) # Lazily trucating rather than rounding to nearest decisecond
         mins="$mins minutes, "
+    else
+        subsecs=`printf "%03d" $mils`
     fi
-    tdiff="$mins$secs.$mils seconds"
+
+    tdiff="$mins$secs.$subsecs seconds"
 }
 
 int_handler()
 {
     set_tdiff
 
-    echo -e "\e[93m▶ Interrupted after $tdiff seconds ◀\e[0m"
+    echo -e "\e[93m▶ Interrupted after $tdiff ◀\e[0m"
     kill $PPID
     exit 1
 }
@@ -60,7 +68,7 @@ done
 set_tdiff
 
 if [ "$success" = false ]; then
-    echo -e "\e[91m✘ Still failed after $TRIES tries in $tdiff seconds; quitting ✘\e[0m"
+    echo -e "\e[91m✘ Still failed after $TRIES tries in $tdiff; quitting ✘\e[0m"
 else
     tries="tries"
     if [ "$n" -eq 1 ]; then
