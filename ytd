@@ -58,7 +58,7 @@ while [ "$n" -lt "$TRIES" ]; do
 
     echo -e "\e[36m──────────────────────────── Try #$n ────────────────────────────\e[0m"
 
-    youtube-dl -- $1
+    youtube-dl --no-mtime -- $1
     if [ "$?" -eq 0 ]; then
         success=true
         break
