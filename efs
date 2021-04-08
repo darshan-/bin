@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ $# -ne 2 ]]; then
+    echo "Usage: $0 ./data-dir ./mount-dir"
+fi
+
+encfs $(realpath $1) $(realpath $2)

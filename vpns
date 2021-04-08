@@ -8,7 +8,8 @@ if [[ "$*" = "up" ]]; then
     #sudo systemctl start openvpn-client@pia-seattle.service
     #sudo /home/darshan/bin/wg-quick up mullvad-us5
     #sudo wg-quick up mullvad-us5
-    sudo wg-quick up mullvad-us181
+    #sudo wg-quick up mullvad-us181
+    sudo wg-quick up mullvad-us179
 else
     if [[ "$*" = "down" ]]; then
         ####sudo /etc/init.d/openvpn.pia-seattle stop
@@ -16,7 +17,8 @@ else
         #sudo systemctl stop openvpn-client@pia-seattle.service
         #sudo /home/darshan/bin/wg-quick down mullvad-us5
         #sudo wg-quick down mullvad-us5
-        sudo wg-quick down mullvad-us181
+        #sudo wg-quick down mullvad-us181
+        sudo wg-quick down mullvad-us179
         #echo "Enabling IPv6"
         #ipv6 up
     else
