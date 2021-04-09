@@ -1,0 +1,26 @@
+#!/bin/bash
+
+case "$1" in
+    d)
+    ;&
+    day)
+        rs day
+        lifx day
+        ;;
+    dd)
+    ;&
+    dim-day)
+        rs 45
+        lifx k 3500
+        lifx b 0.75
+        ;;
+    n)
+        ;&
+    night)
+        rs 35
+        lifx night
+        ;;
+    *)
+        echo unknown command
+        ;;
+esac
