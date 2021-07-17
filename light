@@ -7,7 +7,7 @@ case "$1" in
         rs day
         lifx day
         ;;
-    dd)
+    i)
     ;&
     dim-day)
         rs 45

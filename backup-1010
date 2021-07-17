@@ -1,0 +1,61 @@
+#!/bin/bash
+
+cd /home/darshan/1010-backup
+d=`date +%Y%m%d%H%M`
+mkdir $d
+cd $d
+
+adb root >/dev/null
+
+adb pull /mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten 1
+adb pull /mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten 2
+adb pull /mnt/runtime/write/emulated/0/Android/obb/com.gramgames.tenten 3
+adb pull /mnt/runtime/write/emulated/0/Android/data/com.gramgames.tenten 4
+adb pull /mnt/runtime/read/emulated/0/Android/obb/com.gramgames.tenten 5
+adb pull /mnt/runtime/read/emulated/0/Android/data/com.gramgames.tenten 6
+adb pull /mnt/runtime/default/emulated/0/Android/obb/com.gramgames.tenten 7
+adb pull /mnt/runtime/default/emulated/0/Android/data/com.gramgames.tenten 8
+adb pull /mnt/pass_through/0/emulated/0/Android/obb/com.gramgames.tenten 9
+adb pull /mnt/pass_through/0/emulated/0/Android/data/com.gramgames.tenten 10
+adb pull /data/misc/profiles/cur/0/com.gramgames.tenten 11
+adb pull /data/misc/profiles/ref/com.gramgames.tenten 12
+adb pull /data/data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 13
+adb pull /data/data/com.gramgames.tenten 14
+adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 15
+adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 16
+adb pull /data/app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA== 17
+adb pull /data/system/graphicsstats/1626307200000/com.gramgames.tenten 18
+adb pull /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 19
+adb pull /data/user/0/com.gramgames.tenten 20
+adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 21
+adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 22
+adb pull /data/user_de/0/com.gramgames.tenten 23
+adb pull /data/media/0/Android/obb/com.gramgames.tenten 24
+adb pull /data/media/0/Android/data/com.gramgames.tenten 25
+adb pull /data_mirror/cur_profiles/0/com.gramgames.tenten 26
+adb pull /data_mirror/data_de/null/0/com.gramgames.tenten 27
+adb pull /data_mirror/data_ce/null/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 28
+adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten 29
+adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 30
+adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 31
+
+
+# Attempting backup at 127819 @ 10:08-ish PM Friday, July 16
+# It worked!
+# Obviously not sure which files are actually necessary, and they come out pretty big, but, hey, it works!
+
+##adb backup -f 1010-`date +%Y%m%d%H%M`.ab -apk com.gramgames.tenten
+
+#adb root
+#adb pull /data/data/com.gramgames.tenten 1010-`date +%Y%m%d%H%M`
+#adb pull /data/
+
+
+## Set backup script to go from these names to some single folder name, and
+##  restore in reverse.  Like
+
+###  /data/misc/profiles/cur/0/com.gramgames.tenten -> 1
+## or
+###  /data/misc/profiles/cur/0/com.gramgames.tenten -> misc-profiles-cur-0-com.gramgames.tenten
+
+## Like, cd to timestamped backup folder first, then do all that
