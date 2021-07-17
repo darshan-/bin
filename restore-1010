@@ -7,7 +7,7 @@ tar xzf "$latest"
 d=${latest%.tgz}
 cd "$d"
 
-adb root >/dev/null
+adb root >/dev/null || { echo "Can't adb root -- is device connected?"; exit 1; }
 
 #adb push 1 /mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten
 #adb push 2 /mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten
