@@ -1,5 +1,30 @@
 #!/bin/bash
 
+start=`date +%s%N`
+
+set_tdiff()
+{
+    local end=`date +%s%N`
+    local msdiff=$(( (end - start) / 1000000 ))
+
+    local mins=""
+    local subsecs=""
+
+    local secs=$(( msdiff / 1000 ))
+    local mils=$(( msdiff % 1000 ))
+
+    if  [ "$secs" -ge 60 ]; then
+        mins=$(( secs / 60 ))
+        secs=$(( secs % 60 ))
+        subsecs=$(( mils / 100)) # Lazily trucating rather than rounding to nearest decisecond
+        mins="$mins minutes, "
+    else
+        subsecs=`printf "%03d" $mils`
+    fi
+
+    tdiff="$mins$secs.$subsecs seconds"
+}
+
 cd /home/darshan/1010-backup
 d=`date +%Y%m%d%H%M`
 mkdir $d
@@ -7,55 +32,64 @@ cd $d
 
 adb root >/dev/null
 
-adb pull /mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten 1
-adb pull /mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten 2
-adb pull /mnt/runtime/write/emulated/0/Android/obb/com.gramgames.tenten 3
-adb pull /mnt/runtime/write/emulated/0/Android/data/com.gramgames.tenten 4
-adb pull /mnt/runtime/read/emulated/0/Android/obb/com.gramgames.tenten 5
-adb pull /mnt/runtime/read/emulated/0/Android/data/com.gramgames.tenten 6
-adb pull /mnt/runtime/default/emulated/0/Android/obb/com.gramgames.tenten 7
-adb pull /mnt/runtime/default/emulated/0/Android/data/com.gramgames.tenten 8
-adb pull /mnt/pass_through/0/emulated/0/Android/obb/com.gramgames.tenten 9
-adb pull /mnt/pass_through/0/emulated/0/Android/data/com.gramgames.tenten 10
+#adb pull /mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten 1
+#adb pull /mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten 2
+#adb pull /mnt/runtime/write/emulated/0/Android/obb/com.gramgames.tenten 3
+#adb pull /mnt/runtime/write/emulated/0/Android/data/com.gramgames.tenten 4
+#adb pull /mnt/runtime/read/emulated/0/Android/obb/com.gramgames.tenten 5
+#adb pull /mnt/runtime/read/emulated/0/Android/data/com.gramgames.tenten 6
+#adb pull /mnt/runtime/default/emulated/0/Android/obb/com.gramgames.tenten 7
+#adb pull /mnt/runtime/default/emulated/0/Android/data/com.gramgames.tenten 8
+#adb pull /mnt/pass_through/0/emulated/0/Android/obb/com.gramgames.tenten 9
+#adb pull /mnt/pass_through/0/emulated/0/Android/data/com.gramgames.tenten 10
+
 adb pull /data/misc/profiles/cur/0/com.gramgames.tenten 11
 adb pull /data/misc/profiles/ref/com.gramgames.tenten 12
 adb pull /data/data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 13
 adb pull /data/data/com.gramgames.tenten 14
 adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 15
 adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 16
-adb pull /data/app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA== 17
+#adb pull /data/app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA== 17
 adb pull /data/system/graphicsstats/1626307200000/com.gramgames.tenten 18
 adb pull /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 19
 adb pull /data/user/0/com.gramgames.tenten 20
 adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 21
 adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 22
 adb pull /data/user_de/0/com.gramgames.tenten 23
-adb pull /data/media/0/Android/obb/com.gramgames.tenten 24
-adb pull /data/media/0/Android/data/com.gramgames.tenten 25
-adb pull /data_mirror/cur_profiles/0/com.gramgames.tenten 26
-adb pull /data_mirror/data_de/null/0/com.gramgames.tenten 27
-adb pull /data_mirror/data_ce/null/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 28
-adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten 29
-adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 30
-adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 31
+#adb pull /data/media/0/Android/obb/com.gramgames.tenten 24
+#adb pull /data/media/0/Android/data/com.gramgames.tenten 25
+#adb pull /data_mirror/cur_profiles/0/com.gramgames.tenten 26
+#adb pull /data_mirror/data_de/null/0/com.gramgames.tenten 27
+#adb pull /data_mirror/data_ce/null/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 28
+#adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten 29
+#adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 30
+#adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 31
 
+cd ..
 
-# Attempting backup at 127819 @ 10:08-ish PM Friday, July 16
-# It worked!
-# Obviously not sure which files are actually necessary, and they come out pretty big, but, hey, it works!
+tar -c --use-compress-program=pigz -f "$d.tgz" "$d"
+rm -rf $d
 
-##adb backup -f 1010-`date +%Y%m%d%H%M`.ab -apk com.gramgames.tenten
+set_tdiff
 
-#adb root
-#adb pull /data/data/com.gramgames.tenten 1010-`date +%Y%m%d%H%M`
-#adb pull /data/
+#echo "Backed up to $d.tgz in $tdiff"
+#ls -alh "$d.tgz"
 
+echo "Completed backup in $tdiff"
+du -h "$d.tgz"
 
-## Set backup script to go from these names to some single folder name, and
-##  restore in reverse.  Like
+# Attempting pzipped backup at 128975 @ 12:21-ish AM, now techically Saturday, July 17
 
-###  /data/misc/profiles/cur/0/com.gramgames.tenten -> 1
-## or
-###  /data/misc/profiles/cur/0/com.gramgames.tenten -> misc-profiles-cur-0-com.gramgames.tenten
+# Seemed to work!  And much faster and smaller backup file.  Let's try a few times before feeling confident.
 
-## Like, cd to timestamped backup folder first, then do all that
+# Attempting compressed backup and restore again at 131620
+# (Note, I cleared cache before restore... don't know if that's helpful, but just noting I did so, and it worked that time.)
+
+# Again seemed to work!
+
+# So I may well be backing up things I don't need (or possibly skipping things I *should* backup, but so far so good), and
+#  my system may be overkill, but here's what I do:
+
+# * For backup, I swipe the app away from the task swicher, but don't do anything else; no force stopping or anything.
+# * For restore, I swipe it away if it's there, then force stop it, then clear cache, then do restore.
+# I guess I'll experiment at some point to see what of that might be skippable, for for now, this seems to work!
