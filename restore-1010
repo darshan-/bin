@@ -9,38 +9,32 @@ cd "$d"
 
 adb root >/dev/null || { echo "Can't adb root -- is device connected?"; exit 1; }
 
-#adb push 1 /mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten
-#adb push 2 /mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten
-#adb push 3 /mnt/runtime/write/emulated/0/Android/obb/com.gramgames.tenten
-#adb push 4 /mnt/runtime/write/emulated/0/Android/data/com.gramgames.tenten
-#adb push 5 /mnt/runtime/read/emulated/0/Android/obb/com.gramgames.tenten
-#adb push 6 /mnt/runtime/read/emulated/0/Android/data/com.gramgames.tenten
-#adb push 7 /mnt/runtime/default/emulated/0/Android/obb/com.gramgames.tenten
-#adb push 8 /mnt/runtime/default/emulated/0/Android/data/com.gramgames.tenten
-#adb push 9 /mnt/pass_through/0/emulated/0/Android/obb/com.gramgames.tenten
-#adb push 10 /mnt/pass_through/0/emulated/0/Android/data/com.gramgames.tenten
-adb push 11 /data/misc/profiles/cur/0/com.gramgames.tenten
-adb push 12 /data/misc/profiles/ref/com.gramgames.tenten
-adb push 13 /data/data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
-adb push 14 /data/data/com.gramgames.tenten
-adb push 15 /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
-adb push 16 /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
-#adb push 17 /data/app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA==
-adb push 18 /data/system/graphicsstats/1626307200000/com.gramgames.tenten
-adb push 19 /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
-adb push 20 /data/user/0/com.gramgames.tenten
-adb push 21 /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
-adb push 22 /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
-adb push 23 /data/user_de/0/com.gramgames.tenten
-#adb push 24 /data/media/0/Android/obb/com.gramgames.tenten
-#adb push 25 /data/media/0/Android/data/com.gramgames.tenten
-#adb push 26 /data_mirror/cur_profiles/0/com.gramgames.tenten
-#adb push 27 /data_mirror/data_de/null/0/com.gramgames.tenten
-#adb push 28 /data_mirror/data_ce/null/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
-#adb push 29 /data_mirror/data_ce/null/0/com.gramgames.tenten
-#adb push 30 /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
-#adb push 31 /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+#adb push 15 /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+#adb push 16 /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+##adb push 19 /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+#adb push 21 /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+#adb push 22 /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+
+adb push com.gramgames.tenten_preferences.xml /data/data/com.gramgames.tenten/shared_prefs/
+adb push com.gramgames.tenten.v2.playerprefs.xml /data/data/com.gramgames.tenten/shared_prefs/
+#adb push com.gramgames.tenten_preferences.xml /data/user/0/com.gramgames.tenten/shared_prefs/
+#adb push com.gramgames.tenten.v2.playerprefs.xml /data/user/0/com.gramgames.tenten/shared_prefs/
+
+# I wonder if they symlinks (or hard links!) to each other? (Or mirrored fs or anything...)
+#  Might try just doing the first two...
 
 cd ..
 
 rm "$d" -rf
+
+
+# 136703 without backup_chunk_listings
+# 135811
+# Crud, so it isn't working... I play, swipe from task manager, reopen... an I'm not where I left off.
+# Shoot.
+# Let's quit for now.  I do think we're very much on the right track.
+# This could perhaps, at least partly, be because we're based on an old backup.
+# Starting from scatch at 0 may allow this to work, which would be okay.
+
+
+# 683

@@ -32,18 +32,14 @@ cd $d
 
 adb root >/dev/null || { echo "Can't adb root -- is device connected?"; exit 1; }
 
-adb pull /data/misc/profiles/cur/0/com.gramgames.tenten 11
-adb pull /data/misc/profiles/ref/com.gramgames.tenten 12
-adb pull /data/data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 13
-adb pull /data/data/com.gramgames.tenten 14
-adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 15
-adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 16
-adb pull /data/system/graphicsstats/1626307200000/com.gramgames.tenten 18
-adb pull /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 19
-adb pull /data/user/0/com.gramgames.tenten 20
-adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 21
-adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 22
-adb pull /data/user_de/0/com.gramgames.tenten 23
+#adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 15
+#adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 16
+##adb pull /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 19
+#adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 21
+#adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 22
+
+adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
 
 cd ..
 
@@ -56,11 +52,3 @@ echo -e "\e[92m✔ Completed backup in $tdiff.\e[0m"
 du -h "$d.tgz"
 
 b2 upload-file josiahbarber "$d.tgz" "$d.tgz"
-
-# I may well be backing up things I don't need (or possibly skipping things I *should* backup, but so far so good),
-#  and my system may be overkill, but here's what I do:
-#
-# * For backup, I swipe the app away from the task swicher, but don't do anything else; no force stopping or anything.
-# * For restore, I swipe it away if it's there, then force stop it, then clear cache, then do restore.
-#
-# I guess I'll experiment at some point to see what of that might be skippable, for for now, this seems to work!

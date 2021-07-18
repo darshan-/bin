@@ -1,0 +1,182 @@
+adb pull /mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten 1
+adb pull /mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten 2
+adb pull /mnt/runtime/write/emulated/0/Android/obb/com.gramgames.tenten 3
+adb pull /mnt/runtime/write/emulated/0/Android/data/com.gramgames.tenten 4
+adb pull /mnt/runtime/read/emulated/0/Android/obb/com.gramgames.tenten 5
+adb pull /mnt/runtime/read/emulated/0/Android/data/com.gramgames.tenten 6
+adb pull /mnt/runtime/default/emulated/0/Android/obb/com.gramgames.tenten 7
+adb pull /mnt/runtime/default/emulated/0/Android/data/com.gramgames.tenten 8
+adb pull /mnt/pass_through/0/emulated/0/Android/obb/com.gramgames.tenten 9
+adb pull /mnt/pass_through/0/emulated/0/Android/data/com.gramgames.tenten 10
+adb pull /data/misc/profiles/cur/0/com.gramgames.tenten 11
+adb pull /data/misc/profiles/ref/com.gramgames.tenten 12
+adb pull /data/data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 13
+adb pull /data/data/com.gramgames.tenten 14
+adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 15
+adb pull /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 16
+adb pull /data/app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA== 17
+adb pull /data/system/graphicsstats/1626307200000/com.gramgames.tenten 18
+adb pull /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 19
+adb pull /data/user/0/com.gramgames.tenten 20
+adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 21
+adb pull /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 22
+adb pull /data/user_de/0/com.gramgames.tenten 23
+adb pull /data/media/0/Android/obb/com.gramgames.tenten 24
+adb pull /data/media/0/Android/data/com.gramgames.tenten 25
+adb pull /data_mirror/cur_profiles/0/com.gramgames.tenten 26
+adb pull /data_mirror/data_de/null/0/com.gramgames.tenten 27
+adb pull /data_mirror/data_ce/null/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten 28
+adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten 29
+adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml 30
+adb pull /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml 31
+
+
+
+
+
+
+
+adb push 1 /mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten
+adb push 2 /mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten
+adb push 3 /mnt/runtime/write/emulated/0/Android/obb/com.gramgames.tenten
+adb push 4 /mnt/runtime/write/emulated/0/Android/data/com.gramgames.tenten
+adb push 5 /mnt/runtime/read/emulated/0/Android/obb/com.gramgames.tenten
+adb push 6 /mnt/runtime/read/emulated/0/Android/data/com.gramgames.tenten
+adb push 7 /mnt/runtime/default/emulated/0/Android/obb/com.gramgames.tenten
+adb push 8 /mnt/runtime/default/emulated/0/Android/data/com.gramgames.tenten
+adb push 9 /mnt/pass_through/0/emulated/0/Android/obb/com.gramgames.tenten
+adb push 10 /mnt/pass_through/0/emulated/0/Android/data/com.gramgames.tenten
+adb push 11 /data/misc/profiles/cur/0/com.gramgames.tenten
+adb push 12 /data/misc/profiles/ref/com.gramgames.tenten
+adb push 13 /data/data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+adb push 14 /data/data/com.gramgames.tenten
+adb push 15 /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+adb push 16 /data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+adb push 17 /data/app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA==
+adb push 18 /data/system/graphicsstats/1626307200000/com.gramgames.tenten
+adb push 19 /data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+adb push 20 /data/user/0/com.gramgames.tenten
+adb push 21 /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+adb push 22 /data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+adb push 23 /data/user_de/0/com.gramgames.tenten
+adb push 24 /data/media/0/Android/obb/com.gramgames.tenten
+adb push 25 /data/media/0/Android/data/com.gramgames.tenten
+adb push 26 /data_mirror/cur_profiles/0/com.gramgames.tenten
+adb push 27 /data_mirror/data_de/null/0/com.gramgames.tenten
+adb push 28 /data_mirror/data_ce/null/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+adb push 29 /data_mirror/data_ce/null/0/com.gramgames.tenten
+adb push 30 /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+adb push 31 /data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+
+
+
+
+
+
+This can help me prioritize what to try skipping, seeing what's taking forever:
+
+/mnt/runtime/full/emulated/0/Android/obb/com.gramgames.tenten/: 0 files pulled, 0 skipped.
+/mnt/runtime/full/emulated/0/Android/data/com.gramgames.tenten/: 9471 files pulled, 0 skipped. 0.6 MB/s (74129275 bytes in 115.490s)
+/mnt/runtime/write/emulated/0/Android/obb/com.gramgames.tenten/: 0 files pulled, 0 skipped.
+/mnt/runtime/write/emulated/0/Android/data/com.gramgames.tenten/: 9471 files pulled, 0 skipped. 1.2 MB/s (74129275 bytes in 59.368s)
+/mnt/runtime/read/emulated/0/Android/obb/com.gramgames.tenten/: 0 files pulled, 0 skipped.
+/mnt/runtime/read/emulated/0/Android/data/com.gramgames.tenten/: 9471 files pulled, 0 skipped. 1.2 MB/s (74129275 bytes in 60.109s)
+/mnt/runtime/default/emulated/0/Android/obb/com.gramgames.tenten/: 0 files pulled, 0 skipped.
+/mnt/runtime/default/emulated/0/Android/data/com.gramgames.tenten/: 9471 files pulled, 0 skipped. 1.1 MB/s (74129275 bytes in 63.584s)
+/mnt/pass_through/0/emulated/0/Android/obb/com.gramgames.tenten/: 0 files pulled, 0 skipped.
+/mnt/pass_through/0/emulated/0/Android/data/com.gramgames.tenten/: 9471 files pulled, 0 skipped. 1.2 MB/s (74129275 bytes in 60.618s)
+/data/misc/profiles/cur/0/com.gramgames.tenten/: 3 files pulled, 0 skipped. 0.3 MB/s (18232 bytes in 0.056s)
+/data/misc/profiles/ref/com.gramgames.tenten/: 2 files pulled, 0 skipped. 0.3 MB/s (15420 bytes in 0.055s)
+/data/data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten: 1 file pulled, 0 skipped. 19.4 MB/s (117192 bytes in 0.006s)
+/data/data/com.gramgames.tenten/: 403 files pulled, 0 skipped. 3.6 MB/s (19568924 bytes in 5.149s)
+/data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml: 1 file pulled, 0 skipped. 0.3 MB/s (625 bytes in 0.002s)
+/data/data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml: 1 file pulled, 0 skipped. 5.2 MB/s (8550 bytes in 0.002s)
+/data/app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA==/: 24 files pulled, 0 skipped. 34.3 MB/s (309658474 bytes in 8.606s)
+/data/system/graphicsstats/1626307200000/com.gramgames.tenten/: 2 files pulled, 0 skipped. 0.0 MB/s (2486 bytes in 0.059s)
+/data/user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten: 1 file pulled, 0 skipped. 21.5 MB/s (117192 bytes in 0.005s)
+/data/user/0/com.gramgames.tenten/: 403 files pulled, 0 skipped. 8.0 MB/s (19568924 bytes in 2.328s)
+/data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml: 1 file pulled, 0 skipped. 0.7 MB/s (625 bytes in 0.001s)
+/data/user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml: 1 file pulled, 0 skipped. 9.4 MB/s (8550 bytes in 0.001s)
+/data/user_de/0/com.gramgames.tenten/: 3 files pulled, 0 skipped. 1.1 MB/s (74664 bytes in 0.063s)
+/data/media/0/Android/obb/com.gramgames.tenten/: 0 files pulled, 0 skipped.
+/data/media/0/Android/data/com.gramgames.tenten/: 9471 files pulled, 0 skipped. 1.6 MB/s (74129275 bytes in 45.469s)
+/data_mirror/cur_profiles/0/com.gramgames.tenten/: 3 files pulled, 0 skipped. 2.1 MB/s (18232 bytes in 0.008s)
+/data_mirror/data_de/null/0/com.gramgames.tenten/: 3 files pulled, 0 skipped. 3.5 MB/s (74664 bytes in 0.020s)
+/data_mirror/data_ce/null/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten: 1 file pulled, 0 skipped. 24.2 MB/s (117192 bytes in 0.005s)
+/data_mirror/data_ce/null/0/com.gramgames.tenten/: 403 files pulled, 0 skipped. 7.2 MB/s (19568924 bytes in 2.605s)
+/data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml: 1 file pulled, 0 skipped. 0.3 MB/s (625 bytes in 0.002s)
+/data_mirror/data_ce/null/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml: 1 file pulled, 0 skipped. 5.4 MB/s (8550 bytes in 0.002s)
+
+
+
+
+--
+
+After a complete data wipe:
+
+coral:/data # find . -name "*tenten*"
+./misc/profiles/cur/0/com.gramgames.tenten
+./misc/profiles/ref/com.gramgames.tenten
+./data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+./data/com.gramgames.tenten
+./app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA==
+./system/graphicsstats/1626307200000/com.gramgames.tenten
+./user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+./user/0/com.gramgames.tenten
+./user_de/0/com.gramgames.tenten
+./media/0/Android/obb/com.gramgames.tenten
+./media/0/Android/data/com.gramgames.tenten
+
+
+But let's play a handful of pieces and see what an in-game setup looks like...
+
+Okay, after accepting terms, setting night mode color, and placing one piece, then swiping from
+  task manager, force stopping, and clearing cache, I have:
+
+coral:/data # find . -name "*tenten*"                                                                                                                                                                                                       
+./misc/profiles/cur/0/com.gramgames.tenten
+./misc/profiles/ref/com.gramgames.tenten
+./data/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+./data/com.gramgames.tenten
+./data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+./data/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+./app/~~MCCwq4mx3eVwlBgOnl0HXw==/com.gramgames.tenten-imNUl4sBdFaCBB0-jV84fA==
+./system/graphicsstats/1626566400000/com.gramgames.tenten
+./system/graphicsstats/1626307200000/com.gramgames.tenten
+./user/0/com.google.android.gms/files/backup_chunk_listings/com.gramgames.tenten
+./user/0/com.gramgames.tenten
+./user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten.v2.playerprefs.xml
+./user/0/com.gramgames.tenten/shared_prefs/com.gramgames.tenten_preferences.xml
+./user_de/0/com.gramgames.tenten
+./media/0/Android/obb/com.gramgames.tenten
+./media/0/Android/data/com.gramgames.tenten
+
+
+And okay, it really looks like we shouldn't have any recursive 14, 20, and 29 there; those
+  seem clearly somehow from me, even though I can't see how...
+
+Oh, wait, yeah I do!  Just had to actually realize it's true and pause for a second, then it's
+  obvious.
+
+  adb push 20 /data/user/0/com.gramgames.tenten
+
+Puts 20 to that folder when it already exists.
+So I want it called com.gramgames.tenten and I want to push it to /data/user/0/ or I otherwise
+ want to do it differently, do it correctly.  (Since I have multiple com.gramgames.tenten folders
+ that go in different places, and pushing "user-0-com.gramgames.tenten" isn't any better than
+ pushing "20".
+
+
+Okay, just the prefs and one other folder/file seems good!  Should be quick, fast, and foolproof! (?)
+
+
+
+Trying new, very light backup at 135306.
+Not wiping cache or anything, and not even force stopping, just swiping from task manager.
+We *may* need to do some or all of 1) accept terms, 2) switch to night mode, and/or 3) start
+ a game.  But it seems likely all of those are in prefs!
+So I want to try restore from complete wipe and see what happens.
+
+
+Fuck yeah, seems to work fast and perfectly, regardless of whether no wipe or complete wipe!
+
